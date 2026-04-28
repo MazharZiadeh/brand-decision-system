@@ -1,0 +1,555 @@
+# Discovery questionnaire v0.1 — English-primary master.
+# Each question carries text in BOTH languages; the .ar.yaml sibling is the
+# Arabic-primary master kept structurally identical so an expert reviewing
+# either file sees the same canonical 22 questions.
+#
+# content_hash is a placeholder — the YAML loader (Session 6+) will compute
+# a real SHA256 over the canonicalized content at app start.
+#
+# Extra metadata (min_selections, max_selections, free_text_max_length) is
+# carried in YAML for the eventual UI layer; the current Question Pydantic
+# model ignores these fields. Documented in the session report.
+
+version: "0.1.0"
+content_hash: "mvp-0.1.0-en-machine-authored"
+
+questions:
+  # ───────────────────────────── SECTION 1 — Identity ─────────────────────────────
+
+  - id: "q1.1"
+    section: "identity"
+    mechanic: "free_text"
+    required: true
+    free_text_max_length: 200
+    text_by_language:
+      en: "What's your brand name? In one sentence, what does your brand do?"
+      ar: "ما اسم علامتك التجارية؟ في جملة واحدة، ما الذي تقدمه علامتك؟"
+
+  - id: "q1.2"
+    section: "identity"
+    mechanic: "single_choice"
+    required: true
+    text_by_language:
+      en: "Where is your brand right now?"
+      ar: "أين علامتك التجارية في الوقت الحالي؟"
+    options:
+      - value: "starting"
+        label_by_language:
+          en: "Just starting — no customers yet, planning launch"
+          ar: "في البداية — لا يوجد عملاء بعد، نخطط للإطلاق"
+      - value: "early"
+        label_by_language:
+          en: "Early — first customers, finding our feet (under 1 year)"
+          ar: "مبكرة — أول العملاء، نبني خطواتنا (أقل من سنة)"
+      - value: "growing"
+        label_by_language:
+          en: "Growing — customers regularly, working on consistency (1-3 years)"
+          ar: "في نمو — عملاء بانتظام، نعمل على الاتساق (1-3 سنوات)"
+      - value: "established"
+        label_by_language:
+          en: "Established — known in our niche, looking to level up (3+ years)"
+          ar: "راسخة — معروفون في مجالنا، نسعى للارتقاء (أكثر من 3 سنوات)"
+      - value: "mature"
+        label_by_language:
+          en: "Mature — well-known, considering refresh or pivot"
+          ar: "ناضجة — معروفون جيدًا، نفكر في تجديد أو تحول"
+
+  - id: "q1.3"
+    section: "identity"
+    mechanic: "single_choice"
+    required: true
+    text_by_language:
+      en: "How would you describe your position in your category?"
+      ar: "كيف تصف موقع علامتك في فئتها؟"
+    options:
+      - value: "pioneer"
+        label_by_language:
+          en: "Pioneer — we're creating something new in this category"
+          ar: "رائد — نحن نخلق شيئًا جديدًا في هذه الفئة"
+      - value: "premium"
+        label_by_language:
+          en: "Premium — best-in-class within an established category"
+          ar: "متميز — الأفضل في فئة قائمة"
+      - value: "challenger"
+        label_by_language:
+          en: "Challenger — taking on the dominant players"
+          ar: "منافس — نواجه اللاعبين المهيمنين"
+      - value: "specialist"
+        label_by_language:
+          en: "Specialist — deep expertise in one narrow area"
+          ar: "متخصص — خبرة عميقة في مجال محدد"
+      - value: "accessible"
+        label_by_language:
+          en: "Accessible — making something previously exclusive available to more people"
+          ar: "في المتناول — نوفر للجميع ما كان حكرًا على القلة"
+      - value: "traditional"
+        label_by_language:
+          en: "Traditional — doing what's been done well for a long time"
+          ar: "تقليدي — نقدم ما يُقدَّم بإتقان منذ زمن طويل"
+
+  - id: "q1.4"
+    section: "identity"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "Where does your brand draw its strength?"
+      ar: "من أين تستمد علامتك التجارية قوتها؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Heritage / tradition / legacy"
+        ar: "الإرث والتقاليد والموروث"
+      right_label_by_language:
+        en: "Vision / innovation / future"
+        ar: "الرؤية والابتكار والمستقبل"
+      midpoint_label_by_language:
+        en: "Balanced — both matter equally"
+        ar: "متوازن — كلاهما مهم بالقدر نفسه"
+
+  # ───────────────────────────── SECTION 2 — Audience ─────────────────────────────
+
+  - id: "q2.1"
+    section: "audience"
+    mechanic: "free_text"
+    required: true
+    free_text_max_length: 200
+    text_by_language:
+      en: "In one sentence, who is your primary customer? Be specific."
+      ar: "في جملة واحدة، من هو عميلك الأساسي؟ كن محددًا."
+
+  - id: "q2.2"
+    section: "audience"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "Where does your audience's age center of gravity sit?"
+      ar: "أين يقع مركز ثقل أعمار جمهورك؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Younger (under 30)"
+        ar: "الأصغر سنًا (أقل من 30)"
+      right_label_by_language:
+        en: "Older (over 50)"
+        ar: "الأكبر سنًا (أكثر من 50)"
+      midpoint_label_by_language:
+        en: "Around 30–50"
+        ar: "بين 30 و50"
+
+  - id: "q2.3"
+    section: "audience"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "What's your audience's mindset about spending in your category?"
+      ar: "ما توجه جمهورك تجاه الإنفاق في فئتك؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Value-conscious — every riyal counts"
+        ar: "حريصون على القيمة — كل ريال له اعتبار"
+      right_label_by_language:
+        en: "Aspirational — willing to pay premium for the right thing"
+        ar: "طموحون — مستعدون لدفع علاوة مقابل المنتج الصحيح"
+      midpoint_label_by_language:
+        en: "Mixed — depends on what they're buying"
+        ar: "مختلط — يعتمد على ما يشترونه"
+
+  - id: "q2.4"
+    section: "audience"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How does your audience typically decide to buy?"
+      ar: "كيف يتخذ جمهورك قرارات الشراء عادة؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Emotional — they decide on feeling, then justify"
+        ar: "عاطفيًا — يقررون بالشعور، ثم يبررون"
+      right_label_by_language:
+        en: "Analytical — they research, compare, then decide"
+        ar: "تحليليًا — يبحثون ويقارنون ثم يقررون"
+      midpoint_label_by_language:
+        en: "Both — feeling sets the shortlist, logic picks within it"
+        ar: "كلاهما — العاطفة تختار القائمة، والعقل يختار منها"
+
+  - id: "q2.5"
+    section: "audience"
+    mechanic: "single_choice"
+    required: true
+    text_by_language:
+      en: "How does your audience prefer to be communicated with?"
+      ar: "كيف يفضل جمهورك أن يُخاطَب؟"
+    options:
+      - value: "arabic_only"
+        label_by_language:
+          en: "Arabic only — they speak/read Arabic primarily"
+          ar: "العربية فقط — يتحدثون ويقرؤون العربية بشكل أساسي"
+      - value: "arabic_primary"
+        label_by_language:
+          en: "Mostly Arabic, some English mixed in (most common in Saudi)"
+          ar: "العربية في الغالب، مع بعض الإنجليزية (الأكثر شيوعًا في السعودية)"
+      - value: "bilingual"
+        label_by_language:
+          en: "Bilingual — equally comfortable in both"
+          ar: "ثنائيو اللغة — مرتاحون في كليهما بالتساوي"
+      - value: "english_primary"
+        label_by_language:
+          en: "Mostly English, some Arabic accents"
+          ar: "الإنجليزية في الغالب، مع لمحات عربية"
+      - value: "english_only"
+        label_by_language:
+          en: "English only"
+          ar: "الإنجليزية فقط"
+
+  # ───────────────────────────── SECTION 3 — Tensions & Pain ─────────────────────────────
+
+  - id: "q3.1"
+    section: "tensions"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How well-known is your brand to people who would actually buy from you?"
+      ar: "ما مدى شهرة علامتك التجارية لدى من يحتمل أن يشتروا منك فعلًا؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Practically invisible — most people don't know we exist"
+        ar: "غير ظاهرة عمليًا — معظم الناس لا يعرفون بوجودنا"
+      right_label_by_language:
+        en: "Saturated awareness — everyone in our market knows us"
+        ar: "وعي مشبع — كل من في سوقنا يعرفنا"
+      midpoint_label_by_language:
+        en: "Some recognition, not enough"
+        ar: "تعرّف جزئي، لكنه غير كافٍ"
+
+  - id: "q3.2"
+    section: "tensions"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How distinct does your brand feel compared to competitors?"
+      ar: "ما مدى تميّز علامتك التجارية مقارنة بالمنافسين؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "We blend in — customers struggle to tell us apart"
+        ar: "نذوب في الخلفية — يصعب على العملاء التمييز بيننا وبين غيرنا"
+      right_label_by_language:
+        en: "Unmistakably different — nobody confuses us with anyone else"
+        ar: "مختلفون بوضوح — لا يخلط بيننا وبين أحد"
+      midpoint_label_by_language:
+        en: "Some difference, not enough"
+        ar: "اختلاف جزئي، لكنه غير كافٍ"
+
+  - id: "q3.3"
+    section: "tensions"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How clearly do people understand what your brand actually does?"
+      ar: "ما مدى وضوح ما تقدمه علامتك التجارية لدى الناس؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Confusion — people often misunderstand what we do"
+        ar: "ارتباك — كثيرًا ما يُساء فهم ما نقدمه"
+      right_label_by_language:
+        en: "Crystal clear — anyone gets it in 5 seconds"
+        ar: "واضح تمامًا — يفهمنا أي شخص في 5 ثوانٍ"
+      midpoint_label_by_language:
+        en: "Mostly clear, some confusion"
+        ar: "واضح في الغالب، مع شيء من الالتباس"
+
+  - id: "q3.4"
+    section: "tensions"
+    mechanic: "multi_choice"
+    required: true
+    min_selections: 1
+    max_selections: 3
+    text_by_language:
+      en: "Which of these frustrate you most about your brand right now? Pick your top 3."
+      ar: "أيٌّ من هذه الأمور يُحبطك أكثر بشأن علامتك حاليًا؟ اختر أعلى 3."
+    options:
+      - value: "obscurity"
+        label_by_language:
+          en: "People don't know we exist"
+          ar: "الناس لا يعرفون بوجودنا"
+      - value: "commoditization"
+        label_by_language:
+          en: "People know us but think we're like everyone else"
+          ar: "الناس يعرفوننا لكنهم يرونا مثل غيرنا"
+      - value: "confusion"
+        label_by_language:
+          en: "People misunderstand what we actually do"
+          ar: "الناس يسيئون فهم ما نقدمه فعلًا"
+      - value: "stagnation"
+        label_by_language:
+          en: "We've grown stale — same audience, same revenue, no momentum"
+          ar: "أصبحنا راكدين — نفس الجمهور، نفس الإيرادات، بلا زخم"
+      - value: "price_trap"
+        label_by_language:
+          en: "We're forced to compete on price"
+          ar: "نُجبَر على المنافسة بالسعر"
+      - value: "audience_drift"
+        label_by_language:
+          en: "Our audience is shifting away from us"
+          ar: "جمهورنا يبتعد عنا"
+      - value: "internal_misalignment"
+        label_by_language:
+          en: "Our team can't agree on what the brand stands for"
+          ar: "فريقنا لا يتفق على ما تمثله العلامة"
+      - value: "action_misalignment"
+        label_by_language:
+          en: "We say one thing but our actions say another"
+          ar: "نقول شيئًا وأفعالنا تقول شيئًا آخر"
+      - value: "wrong_recognition"
+        label_by_language:
+          en: "We're known for the wrong thing — for our cheapest product, our oldest service, etc."
+          ar: "نُعرَف بالشيء الخطأ — بأرخص منتج لنا أو أقدم خدمة، ونحو ذلك"
+      - value: "loyalty_no_referral"
+        label_by_language:
+          en: "Customers love us but don't refer us"
+          ar: "العملاء يحبوننا لكنهم لا يرشّحوننا"
+
+  # ───────────────────────────── SECTION 4 — Voice & Personality ─────────────────────────────
+
+  - id: "q4.1"
+    section: "voice"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How formal should your brand sound?"
+      ar: "ما درجة الرسمية التي يجب أن تحملها لغة علامتك؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Casual and conversational — like talking to a friend"
+        ar: "غير رسمية وحوارية — كالحديث مع صديق"
+      right_label_by_language:
+        en: "Formal and respectful — like an institution"
+        ar: "رسمية ومحترمة — كمؤسسة"
+      midpoint_label_by_language:
+        en: "Professional but approachable"
+        ar: "مهنية لكن قريبة"
+
+  - id: "q4.2"
+    section: "voice"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How emotionally warm should your brand feel?"
+      ar: "ما مقدار الدفء العاطفي الذي يجب أن تستشعره علامتك؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Cool and professional — efficient, distant"
+        ar: "هادئة ومهنية — كفؤة وبعيدة"
+      right_label_by_language:
+        en: "Warm and inviting — emotional, close"
+        ar: "دافئة ومرحبة — عاطفية وقريبة"
+      midpoint_label_by_language:
+        en: "Friendly but not familiar"
+        ar: "ودودة دون إفراط"
+
+  - id: "q4.3"
+    section: "voice"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "How does your brand carry itself?"
+      ar: "كيف تقدم علامتك نفسها؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Quietly assured — we don't need to shout, the work speaks"
+        ar: "واثقة بهدوء — لا نحتاج إلى الضجيج، أعمالنا تتحدث"
+      right_label_by_language:
+        en: "Boldly stated — we declare our strength clearly and loudly"
+        ar: "جريئة في طرحها — نُعلن قوتنا بوضوح وبصوت عالٍ"
+      midpoint_label_by_language:
+        en: "Confident, not loud"
+        ar: "واثقة دون صخب"
+
+  - id: "q4.4"
+    section: "voice"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "What's the brand's natural energy level?"
+      ar: "ما مستوى الطاقة الطبيعي لعلامتك؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Calm and considered — measured pace, thoughtful"
+        ar: "هادئة ومدروسة — وتيرة معتدلة وتفكير عميق"
+      right_label_by_language:
+        en: "High-energy and dynamic — fast, exciting"
+        ar: "عالية الطاقة وديناميكية — سريعة ومثيرة"
+      midpoint_label_by_language:
+        en: "Steady, with moments of energy"
+        ar: "ثابتة مع لحظات من الطاقة"
+
+  - id: "q4.5"
+    section: "voice"
+    mechanic: "multi_choice"
+    required: true
+    min_selections: 1
+    max_selections: 2
+    text_by_language:
+      en: "If your brand voice were a kind of person you trust, who would it most resemble? Pick up to 2."
+      ar: "إذا كان صوت علامتك شخصًا تثق به، من سيكون الأشبه؟ اختر ما يصل إلى 2."
+    options:
+      - value: "wise_elder"
+        label_by_language:
+          en: "A wise elder — experienced, calm, grounded"
+          ar: "حكيم جليل — صاحب خبرة، هادئ، راسخ"
+      - value: "confident_peer"
+        label_by_language:
+          en: "A confident peer — equal, conversational, no pretension"
+          ar: "نظير واثق — على قدم المساواة، حواري، بلا تكلف"
+      - value: "respected_expert"
+        label_by_language:
+          en: "A respected expert — knowledgeable, precise, authoritative"
+          ar: "خبير محترم — عارف، دقيق، ذو حضور"
+      - value: "creative_friend"
+        label_by_language:
+          en: "A creative friend — playful, surprising, full of ideas"
+          ar: "صديق مبدع — مرح، مفاجئ، مفعم بالأفكار"
+      - value: "trusted_guide"
+        label_by_language:
+          en: "A trusted guide — patient, helpful, walks you through"
+          ar: "مرشد موثوق — صبور، مساعد، يأخذك خطوة بخطوة"
+      - value: "protective_ally"
+        label_by_language:
+          en: "A protective ally — on your side, looks out for you"
+          ar: "حليف حامٍ — في صفك، يحرص عليك"
+      - value: "ambitious_leader"
+        label_by_language:
+          en: "An ambitious leader — visionary, inspiring, forward-looking"
+          ar: "قائد طموح — صاحب رؤية، ملهِم، تطلعي"
+      - value: "craftsman"
+        label_by_language:
+          en: "A craftsman — quiet excellence, attention to detail"
+          ar: "صانع متقن — تميّز هادئ، اهتمام بالتفاصيل"
+
+  # ───────────────────────────── SECTION 5 — Aspiration & Position ─────────────────────────────
+
+  - id: "q5.1"
+    section: "aspiration"
+    mechanic: "slider"
+    required: true
+    text_by_language:
+      en: "What's your strategic posture right now?"
+      ar: "ما موقفك الاستراتيجي في الوقت الحالي؟"
+    slider_config:
+      min_value: 0
+      max_value: 100
+      left_label_by_language:
+        en: "Defending — protecting what we've built"
+        ar: "دفاع — نحمي ما بنيناه"
+      right_label_by_language:
+        en: "Reinventing — actively transforming what we are"
+        ar: "إعادة ابتكار — نُحوّل ما نحن عليه فعليًا"
+      midpoint_label_by_language:
+        en: "Holding steady, exploring shifts"
+        ar: "ثبات مع استكشاف للتحولات"
+
+  - id: "q5.2"
+    section: "aspiration"
+    mechanic: "single_choice"
+    required: true
+    text_by_language:
+      en: "What's your honest three-year ambition for the brand?"
+      ar: "ما طموحك الصادق لعلامتك خلال السنوات الثلاث القادمة؟"
+    options:
+      - value: "category_leader"
+        label_by_language:
+          en: "Become the recognized leader in our specific category in Saudi"
+          ar: "أن نصبح القائد المعروف في فئتنا تحديدًا في السعودية"
+      - value: "respected_specialist"
+        label_by_language:
+          en: "Stay a respected specialist — better, not bigger"
+          ar: "أن نبقى متخصصًا محترمًا — أفضل لا أكبر"
+      - value: "broaden_offering"
+        label_by_language:
+          en: "Expand from one product/service into a broader brand"
+          ar: "أن نتوسع من منتج/خدمة واحدة إلى علامة أوسع"
+      - value: "geographic_expansion"
+        label_by_language:
+          en: "Expand geographically — Gulf, Middle East, beyond"
+          ar: "أن نتوسع جغرافيًا — الخليج، الشرق الأوسط، وما بعد"
+      - value: "acquisition_target"
+        label_by_language:
+          en: "Build for acquisition or strategic partnership"
+          ar: "أن نبني للاستحواذ أو الشراكة الاستراتيجية"
+      - value: "stable_profit"
+        label_by_language:
+          en: "Stabilize and run profitably — no major change"
+          ar: "أن نستقر ونعمل بربحية — دون تغيير كبير"
+      - value: "pivot"
+        label_by_language:
+          en: "Pivot meaningfully — what we are now isn't what we want to be"
+          ar: "أن نتحول جوهريًا — ما نحن عليه ليس ما نريد أن نكون"
+
+  - id: "q5.3"
+    section: "aspiration"
+    mechanic: "single_choice"
+    required: true
+    text_by_language:
+      en: "When someone interacts with your brand at its best, what's the dominant feeling they walk away with?"
+      ar: "حين يتعامل أحدٌ مع علامتك في أفضل حالاتها، ما الشعور الغالب الذي يخرج به؟"
+    options:
+      - value: "pride"
+        label_by_language:
+          en: "Pride — they feel proud to be associated with us"
+          ar: "فخر — يفخر بانتمائه إلينا"
+      - value: "trust"
+        label_by_language:
+          en: "Trust — they feel safe in our hands"
+          ar: "ثقة — يشعر بالأمان بين أيدينا"
+      - value: "excitement"
+        label_by_language:
+          en: "Excitement — they feel energized by us"
+          ar: "حماس — يشعر بالطاقة والإثارة معنا"
+      - value: "belonging"
+        label_by_language:
+          en: "Belonging — they feel they're part of something"
+          ar: "انتماء — يشعر بأنه جزء من شيء"
+      - value: "confidence"
+        label_by_language:
+          en: "Confidence — they feel more capable because of us"
+          ar: "ثقة بالنفس — يشعر بأنه أكثر قدرة بفضلنا"
+      - value: "inspiration"
+        label_by_language:
+          en: "Inspiration — they feel uplifted, possibility expanded"
+          ar: "إلهام — يشعر بالارتقاء واتساع الإمكانات"
+      - value: "calm"
+        label_by_language:
+          en: "Calm — they feel relief, problem handled"
+          ar: "طمأنينة — يشعر بالراحة، والمشكلة تم حلها"
+      - value: "joy"
+        label_by_language:
+          en: "Joy — they feel genuine happiness"
+          ar: "فرح — يشعر بسعادة حقيقية"
+
+  - id: "q5.4"
+    section: "aspiration"
+    mechanic: "free_text"
+    required: false
+    free_text_max_length: 500
+    text_by_language:
+      en: "In two or three sentences, why does your brand exist? Don't polish it — just say it."
+      ar: "في جملتين أو ثلاث، لماذا وُجدت علامتك التجارية؟ لا تُزخرف الكلام — قُلها كما هي."
