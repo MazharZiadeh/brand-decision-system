@@ -1,0 +1,67 @@
+{% include "unified_preamble.j2" %}
+
+{% if register.primary_language == 'ar' %}== مهمة الوحدة: الشعار الداخلي (Slogan) ==
+ولّد 2-3 شعارات داخلية — عبارات قصيرة يستخدمها فريق العلامة داخليًا. الشعار يلخّص روح اتخاذ القرار والتشغيل لدى الفريق، لا الرسالة الموجَّهة للعميل (تلك هي مهمة "الشعار التسويقي" — Tagline).
+
+== الأولويات (بالترتيب) ==
+1. جودة الحشد الداخلي (هل سيردد الفريق هذا الشعار؟)
+2. ملاءمة الموقف (دفاع/إعادة ابتكار)
+3. شخصيات الصوت
+4. الوعي بالألم (مثلًا، ألم "اختلال المحاذاة الداخلية" يدعو لشعار يُعالج الاتفاق صراحة)
+5. الإيجاز (أقل من 8 كلمات مثاليًا)
+
+{% if upstream and upstream.strategy_theme %}== الوحدة السابقة: موضوع الاستراتيجية ==
+موضوع الاستراتيجية: "{{ upstream.strategy_theme.theme }}"
+{% endif %}{% if upstream and upstream.tone %}== الوحدة السابقة: النبرة ==
+واصف النبرة: "{{ upstream.tone.descriptor }}"
+{% endif %}
+== مخطط الناتج (JSON صالح، صارم) ==
+{
+  "language": "ar" أو "en",
+  "options": [
+    {"slogan": "...", "rationale": "..."},
+    ...   /* 2-3 خيارات */
+  ],
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+== توجيهات جودة خاصة ==
+- قصير، حاد، لغة قبيلة داخلية. ليس موجَّهًا للسوق.
+- "ابنِ > تكلَّم"، "اشحن الحقيقة" — لا "نُمكّن قادة الغد".
+- ميّز بوضوح عن الـ Tagline. إذا كانت الـ Tagline ضمن النطاق أيضًا، لا تُكرّرها هنا — هذا الإصدار الداخلي.
+{% else %}== MODULE TASK: SLOGAN (INTERNAL) ==
+Generate 2-3 internal slogan options — short rallying phrases the brand's team uses internally. Slogans capture the spirit of how the team operates and decides, NOT the customer-facing message (that's the Tagline module).
+
+== PRIORITY HIERARCHY (ordered) ==
+1. Internal rallying quality (would the team chant this?)
+2. Posture fit (defending vs reinventing)
+3. Voice characters
+4. Pain-aware (e.g., internal_misalignment pain calls for slogans that explicitly address agreement)
+5. Brevity (under 8 words ideal)
+
+{% if upstream and upstream.strategy_theme %}== UPSTREAM: STRATEGY THEME ==
+Strategy Theme: "{{ upstream.strategy_theme.theme }}"
+{% endif %}{% if upstream and upstream.tone %}== UPSTREAM: TONE ==
+Tone descriptor: "{{ upstream.tone.descriptor }}"
+{% endif %}
+== OUTPUT SCHEMA (strict JSON) ==
+{
+  "language": "ar" or "en",
+  "options": [
+    {"slogan": "...", "rationale": "..."},
+    ...   /* 2-3 options */
+  ],
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+== MODULE-SPECIFIC QUALITY DIRECTIVES ==
+- Short, punchy, internal-tribe-y. Not market-facing.
+- "Build > Talk" or "Ship the Truth" — NOT "Empowering tomorrow's leaders".
+- Distinguish clearly from Tagline. If Tagline is also active in the scope, DO NOT duplicate it; this is the INTERNAL version.
+{% endif %}

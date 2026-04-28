@@ -1,0 +1,77 @@
+{% include "unified_preamble.j2" %}
+
+{% if register.primary_language == 'ar' %}== مهمة الوحدة: الشعار التسويقي (Tagline) ==
+ولّد 2-3 خيارات لشعار تسويقي موجَّه للعميل — عبارات قصيرة لا تُنسى تستخدمها العلامة خارجيًا لتثبيت موقعها في ذهن الجمهور.
+
+== الأولويات (بالترتيب) ==
+1. مواءمة الشعور المستهدف (Q5.3 — فخر/ثقة/حماس/إلخ)
+2. ملاءمة هوية الجمهور لذاته (وصف الجمهور من Q2.1)
+3. التميّز عن المنافسين
+4. القابلية للتذكر (الإيقاع، الطول، الجرس)
+5. ملاءمة السجل والثقافة
+
+{% if upstream and upstream.strategy_theme %}== الوحدة السابقة: موضوع الاستراتيجية ==
+موضوع الاستراتيجية: "{{ upstream.strategy_theme.theme }}"
+{% endif %}{% if upstream and upstream.tone %}== الوحدة السابقة: النبرة ==
+واصف النبرة: "{{ upstream.tone.descriptor }}"
+{% endif %}{% if upstream and upstream.slogan %}== الوحدة السابقة: الشعار الداخلي ==
+الشعار الداخلي للعلامة: "{{ upstream.slogan.options[0].slogan }}". الشعار التسويقي يجب أن لا يُكرّره — هو موجَّه للعميل، لا للفريق الداخلي.
+{% endif %}
+== مخطط الناتج (JSON صالح، صارم) ==
+{
+  "language": "ar" أو "en",
+  "options": [
+    {"tagline": "...", "rationale": "...", "intended_feeling": "..."},
+    ...   /* 2-3 خيارات */
+  ],
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+intended_feeling في كل خيار يجب أن يربط بهدف الشعور لدى الجمهور (Q5.3): {{ aspiration.emotion_target }}.
+
+== توجيهات جودة خاصة ==
+- موجَّه للعميل، لا يُنسى، أقل من 6 كلمات مثاليًا.
+- يجب أن يجتاز اختبار "هل أضعها على لوحة إعلانية؟"
+- إذا كانت اللغة الأساسية عربية، استثمر الأنماط الصوتية العربية (الجناس، التوازي).
+- تجنّب الكليشيهات: "حيث X يلتقي Y"، "فنّ الـ Z"، إلخ.
+{% else %}== MODULE TASK: TAGLINE (CUSTOMER-FACING) ==
+Generate 2-3 customer-facing tagline options — short memorable phrases the brand uses externally to position itself in customers' minds.
+
+== PRIORITY HIERARCHY (ordered) ==
+1. Emotional target alignment (Q5.3 — pride/trust/excitement/etc.)
+2. Audience self-identity fit (audience description from Q2.1)
+3. Distinctiveness vs competitors
+4. Memorability (cadence, length, sound)
+5. Register and cultural fit
+
+{% if upstream and upstream.strategy_theme %}== UPSTREAM: STRATEGY THEME ==
+Strategy Theme: "{{ upstream.strategy_theme.theme }}"
+{% endif %}{% if upstream and upstream.tone %}== UPSTREAM: TONE ==
+Tone descriptor: "{{ upstream.tone.descriptor }}"
+{% endif %}{% if upstream and upstream.slogan %}== UPSTREAM: SLOGAN (INTERNAL) ==
+The internal slogan: "{{ upstream.slogan.options[0].slogan }}". The Tagline must NOT duplicate it — Tagline is customer-facing, Slogan is internal.
+{% endif %}
+== OUTPUT SCHEMA (strict JSON) ==
+{
+  "language": "ar" or "en",
+  "options": [
+    {"tagline": "...", "rationale": "...", "intended_feeling": "..."},
+    ...   /* 2-3 options */
+  ],
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+intended_feeling on each option must map to the audience emotion target (Q5.3): {{ aspiration.emotion_target }}.
+
+== MODULE-SPECIFIC QUALITY DIRECTIVES ==
+- Customer-facing, memorable, ideally under 6 words.
+- Should pass the "would I put this on a billboard" test.
+- If primary_language is Arabic, leverage Arabic phonetic patterns (assonance, parallelism).
+- Avoid clichés ("Where X meets Y", "The art of Z", etc.).
+{% endif %}

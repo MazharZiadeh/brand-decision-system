@@ -1,0 +1,63 @@
+{% include "unified_preamble.j2" %}
+
+{% if register.primary_language == 'ar' %}== مهمة الوحدة: نبرة العلامة ==
+حدّد كيف ينبغي أن تبدو العلامة — واصف نبرة (descriptor) مع أمثلة عملية لما يُقال وما لا يُقال.
+
+== الأولويات (بالترتيب) ==
+1. مواءمة شرائح الصوت (الرسمية + الدفء + الثقة + الطاقة)
+2. ملاءمة شخصيات الصوت (Q4.5)
+3. ملاءمة الجمهور (Q2.6 / Q2.4)
+4. ملاءمة السجل الثقافي (مخرَج المُحلِّل)
+5. الوعي بالألم (مثلًا، ألم "الشهرة الخاطئة" يدفع نحو نبرة تثبت الوضوح)
+
+{% if upstream and upstream.strategy_theme %}== الوحدة السابقة: موضوع الاستراتيجية ==
+نبرة العلامة يجب أن تُعزّز موضوع الاستراتيجية: "{{ upstream.strategy_theme.theme }}"
+{% endif %}
+== مخطط الناتج (JSON صالح، صارم) ==
+{
+  "language": "ar" أو "en",
+  "descriptor": "صفة أو عبارة قصيرة",
+  "do_examples": ["...", "...", "..."],     /* 3-5 عبارات نموذجية */
+  "dont_examples": ["...", "...", "..."],   /* 3-5 عبارات يجب تفاديها */
+  "arabic_note": "توجيه نبرة عربي محدد إذا اختلف عن الواصف العام",
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+== توجيهات جودة خاصة ==
+- do/don't يجب أن تكون عبارات نموذجية محددة، لا نصائح مجردة. اكتب "لا تقل: 'حلول مبتكرة'" بدلًا من "تجنّب العام".
+- إذا كان الناتج بالعربية، أمثلة do/don't بالعربية.
+- arabic_note يُملأ فقط حين تختلف توجيهات النبرة العربية عن الواصف العام.
+{% else %}== MODULE TASK: TONE ==
+Define how the brand should sound — a tone descriptor with concrete do/don't examples that capture the brand's voice.
+
+== PRIORITY HIERARCHY (ordered) ==
+1. Voice slider alignment (formality + warmth + confidence + energy)
+2. Voice character fit (Q4.5 archetypes)
+3. Audience appropriateness (Q2.6 self-identity / Q2.4 decision style)
+4. Cultural register fit (per Register Resolver)
+5. Pain-aware (e.g., wrong_recognition pain pushes tone toward asserting clarity)
+
+{% if upstream and upstream.strategy_theme %}== UPSTREAM: STRATEGY THEME ==
+The Tone must reinforce this Strategy Theme: "{{ upstream.strategy_theme.theme }}"
+{% endif %}
+== OUTPUT SCHEMA (strict JSON) ==
+{
+  "language": "ar" or "en",
+  "descriptor": "a few adjectives or a short phrase",
+  "do_examples": ["...", "...", "..."],     /* 3-5 sample phrasings */
+  "dont_examples": ["...", "...", "..."],   /* 3-5 phrasings to avoid */
+  "arabic_note": "Arabic-specific tone guidance, when it differs from the general descriptor",
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+== MODULE-SPECIFIC QUALITY DIRECTIVES ==
+- do/don't must be concrete sample phrasings, not abstract advice. "Don't say 'innovative solutions'" beats "Don't be generic."
+- If output is in English, English do/don'ts. If Arabic, Arabic do/don'ts.
+- The optional `arabic_note` is used only when the brand will publish in both languages and Arabic-specific tone guidance differs from the general descriptor.
+{% endif %}

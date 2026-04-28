@@ -1,0 +1,83 @@
+{% include "unified_preamble.j2" %}
+
+{% if register.primary_language == 'ar' %}== مهمة الوحدة: موضوع الاستراتيجية ==
+أنشئ موضوع استراتيجية العلامة — التموضع المضموني الذي يحدد كيف تتمايز العلامة وما الذي تمثله خلال السنتين أو الثلاث سنوات القادمة.
+
+== الأولويات (بالترتيب) ==
+1. مواءمة الألم — هل الموضوع يعالج فئات الألم الموسومة؟
+2. ملاءمة التموضع — هل يعكس الموقف المُختار في الفئة (رائد/متميز/منافس/متخصص/في المتناول/تقليدي)؟
+3. مواءمة الطموح — هل يدعم طموح السنوات الثلاث؟
+4. التميّز — هل الموضوع غير عام، خاص بهذه العلامة بعينها؟
+5. الملاءمة الثقافية — هل يعمل في سياق السوق السعودي؟
+
+== لا توجد وحدات سابقة ==
+موضوع الاستراتيجية هو الجذر — لا يستهلك مخرجات وحدات أخرى.
+
+== مخطط الناتج (JSON صالح، صارم) ==
+{
+  "language": "ar" أو "en",
+  "theme": "جملة واحدة تختصر الموضوع",
+  "elaboration": "2-3 جمل توسّع الموضوع",
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+priority_factors_addressed يجب أن يحوي عنصرين على الأقل، يستندان إلى الأولويات المذكورة أعلاه.
+
+== مثال على شكل النتيجة (للهيكل، لا للنسخ) ==
+{
+  "language": "ar",
+  "theme": "حِرفية معاصرة لجيل سعودي يطلب الجودة دون فخامة متكلَّفة.",
+  "elaboration": "نقدّم...",
+  "priority_factors_addressed": [
+    {"factor_name": "ملاءمة التموضع", "how_addressed": "..."},
+    {"factor_name": "مواءمة الألم: الغموض", "how_addressed": "..."}
+  ]
+}
+
+== توجيهات جودة خاصة بهذه الوحدة ==
+- تجنّب لغة شركات مجرّدة. الموضوع يجب أن يكون جملة يستطيع صاحب العلامة اقتباسها في بيان صحفي.
+- اربط الموضوع صراحة بفئة ألم واحدة محددة على الأقل من القائمة الموسومة.
+{% else %}== MODULE TASK: STRATEGY THEME ==
+Generate the brand's Strategy Theme — the thematic positioning that defines how the brand differs and what it stands for in the next 2-3 years.
+
+== PRIORITY HIERARCHY (ordered) ==
+1. Pain alignment — does the theme address the brand's tagged pain categories?
+2. Position fit — does it reflect the chosen category position (pioneer/premium/challenger/specialist/accessible/traditional)?
+3. Ambition alignment — does it support the three-year ambition?
+4. Distinctiveness — is the theme non-generic, specific to THIS brand?
+5. Cultural fit — does it work in the Saudi market context?
+
+== UPSTREAM MODULES ==
+None. Strategy Theme is the root module — it does not consume other modules' outputs.
+
+== OUTPUT SCHEMA (strict JSON) ==
+{
+  "language": "ar" or "en",
+  "theme": "one-sentence theme",
+  "elaboration": "2-3 sentences expanding the theme",
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+priority_factors_addressed must contain at least two entries grounded in the priorities listed above.
+
+== EXAMPLE SHAPE (for structure, not copy) ==
+{
+  "language": "en",
+  "theme": "Quietly engineered for the Saudi professional who wants quality without theatre.",
+  "elaboration": "...",
+  "priority_factors_addressed": [
+    {"factor_name": "Position fit", "how_addressed": "..."},
+    {"factor_name": "Pain alignment: obscurity", "how_addressed": "..."}
+  ]
+}
+
+== MODULE-SPECIFIC QUALITY DIRECTIVES ==
+- Avoid abstract corporate-speak. The theme should be a sentence the brand owner could quote in a press release.
+- Connect the theme explicitly to at least one specific tagged pain category.
+{% endif %}

@@ -1,0 +1,73 @@
+{% include "unified_preamble.j2" %}
+
+{% if register.primary_language == 'ar' %}== مهمة الوحدة: التسمية ==
+ولّد 3-5 مرشحين لاسم العلامة. الأسماء يجب أن تكون قابلة للتذكر والنطق باللغة الأساسية للعلامة، ومتوائمة مع التموضع والطموح.
+
+{% if brand.stage in ['established', 'mature'] %}ملاحظة مهمة: العلامة في مرحلة "{{ brand.stage }}" — لها بالفعل اسم. هذه المرشحات تخص العلامات الفرعية، أو المنتجات، أو الحملات، لا إعادة تسمية كاملة.
+{% endif %}== الأولويات (بالترتيب) ==
+1. القابلية للتذكر والنطق
+2. ملاءمة التموضع (رائد ⇒ أسماء مبتكرة؛ تقليدي ⇒ أسماء جذورها معلومة)
+3. الملاءمة الثقافية (سوق سعودي؛ إذا كانت اللغة الأساسية عربية، فالأفضل أن تهيمن الأسماء ذات الجذر العربي)
+4. الفحص اللغوي (لا دلالات محرجة في العربية ولا في الإنجليزية)
+5. ملاءمة الطموح (التوسع الجغرافي ⇒ أسماء تنتقل بين الأسواق؛ المتخصص المحترم ⇒ أسماء قد تكون متخصصة)
+
+{% if upstream and upstream.strategy_theme %}== الوحدة السابقة: موضوع الاستراتيجية ==
+الأسماء يجب أن تستحضر هذا الموضوع: "{{ upstream.strategy_theme.theme }}"
+{% endif %}
+== مخطط الناتج (JSON صالح، صارم) ==
+{
+  "language": "ar" أو "en",
+  "candidates": [
+    {
+      "name": "...",
+      "rationale": "...",
+      "arabic_form": "نقحرة عربية أو مكافئ، إذا كان الاسم غير عربي"
+    },
+    ...   /* 3-5 مرشحين */
+  ],
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+== توجيهات جودة خاصة ==
+- تجنّب الأسماء العامة بأسلوب SaaS الإنجليزي ("Lorem"، "Stratify"، إلخ). لا مركّبات لاتينية مخترعة.
+- إذا كانت اللغة الأساسية عربية، فضّل الجذور العربية.
+- إذا كان الاسم غير عربي وكان الجمهور يستخدم العربية، يجب توفير arabic_form دائمًا.
+{% else %}== MODULE TASK: NAMING ==
+Generate 3-5 name candidates for the brand. Names must be memorable, pronounceable in the brand's primary language, and aligned with strategic position and aspiration.
+
+{% if brand.stage in ['established', 'mature'] %}IMPORTANT: the brand is at "{{ brand.stage }}" stage — it already has a name. These candidates are for sub-brands, products, or campaigns, not a complete rename.
+{% endif %}== PRIORITY HIERARCHY (ordered) ==
+1. Memorability and pronounceability
+2. Position fit (pioneer ⇒ novel coined names; traditional ⇒ rooted/heritage names)
+3. Cultural fit (Saudi market; if primary_language == 'ar', Arabic-rooted names should dominate)
+4. Linguistic check (no awkward connotations in either Arabic or English)
+5. Ambition fit (geographic_expansion ⇒ names that travel; respected_specialist ⇒ niche names allowed)
+
+{% if upstream and upstream.strategy_theme %}== UPSTREAM: STRATEGY THEME ==
+Names should evoke this Strategy Theme: "{{ upstream.strategy_theme.theme }}"
+{% endif %}
+== OUTPUT SCHEMA (strict JSON) ==
+{
+  "language": "ar" or "en",
+  "candidates": [
+    {
+      "name": "...",
+      "rationale": "...",
+      "arabic_form": "Arabic transliteration or equivalent, if name is non-Arabic"
+    },
+    ...   /* 3-5 candidates */
+  ],
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+== MODULE-SPECIFIC QUALITY DIRECTIVES ==
+- Avoid generic SaaS-style names ("Lorem", "Ipsum", "Stratify"). No invented Latin compounds.
+- If primary_language is Arabic, prefer Arabic roots. If English, prefer concrete words over abstract noun constructions.
+- If a candidate is non-Arabic AND the audience uses Arabic, ALWAYS include arabic_form.
+{% endif %}
