@@ -19,6 +19,7 @@ dependencies = [
     "asyncpg>=0.30",
     "alembic>=1.14",
     "structlog>=24.4",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
