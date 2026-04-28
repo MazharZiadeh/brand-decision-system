@@ -10,6 +10,17 @@ from src.domain.export import ExportArtifact, ExportFormat
 from src.domain.facilitator import Facilitator
 from src.domain.language import Language, LanguageTagged
 from src.domain.module import DecisionScope, ExecutionPlan, ModuleId, ModuleOutput
+from src.domain.module_outputs import (
+    NameCandidate,
+    NamingOutput,
+    PriorityFactorAddressed,
+    SloganOption,
+    SloganOutput,
+    StrategyThemeOutput,
+    TaglineOption,
+    TaglineOutput,
+    ToneOutput,
+)
 from src.domain.pain import PainAnalysis, PainCategory, PainTaxonomy, Rule, RuleTrigger
 from src.domain.prompt import ModulePromptExtension, SessionSystemPrompt
 from src.domain.questionnaire import (
@@ -47,11 +58,14 @@ __all__ = [
     "ModuleId",
     "ModuleOutput",
     "ModulePromptExtension",
+    "NameCandidate",
+    "NamingOutput",
     "PainAnalysis",
     "PainCategory",
     "PainTaxonomy",
     "PhaseState",
     "PriorityFactor",
+    "PriorityFactorAddressed",
     "Question",
     "QuestionnaireInstance",
     "QuestionnaireVersion",
@@ -63,4 +77,10 @@ __all__ = [
     "Session",
     "SessionSystemPrompt",
     "SliderConfig",
+    "SloganOption",
+    "SloganOutput",
+    "StrategyThemeOutput",
+    "TaglineOption",
+    "TaglineOutput",
+    "ToneOutput",
 ]
