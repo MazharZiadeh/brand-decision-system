@@ -1,0 +1,118 @@
+# Pain Taxonomy v0.1 — 10 categories that the Rules Engine tags into and
+# the Narrative Generator reasons over. IDs match the option values of
+# questionnaire Q3.4 so explicit selection round-trips directly to a tag.
+#
+# Translation status: MVP v0.1, machine-authored, pending native review.
+
+version: "0.1.0"
+
+categories:
+  - id: "obscurity"
+    name_by_language:
+      en: "Obscurity"
+      ar: "الغموض"
+    description_by_language:
+      en: "The brand has not yet earned awareness in its target market. Customers who would benefit from the offering simply do not know it exists. Common in early-stage brands and in established categories with strong incumbent brands."
+      ar: "العلامة لم تكتسب بعد الوعي في سوقها المستهدف. العملاء الذين يفيدهم العرض ببساطة لا يعرفون بوجوده. شائع في العلامات المبكرة وفي الفئات الراسخة ذات اللاعبين المسيطرين."
+    example_by_language:
+      en: "We've been operating for two years and still hear 'I never heard of you' on first sales calls."
+      ar: "نعمل منذ سنتين ولا نزال نسمع 'لم أسمع عنكم من قبل' في أول مكالمة بيع."
+
+  - id: "commoditization"
+    name_by_language:
+      en: "Commoditization"
+      ar: "التنميط"
+    description_by_language:
+      en: "The brand is known but indistinguishable from peers. Customers experience the category, not this brand specifically. Often a sign that points-of-parity dominate and points-of-difference are absent or unclear."
+      ar: "العلامة معروفة لكنها لا تتمايز عن أقرانها. العملاء يختبرون الفئة، لا هذه العلامة بعينها. غالبًا ما يدل ذلك على هيمنة نقاط التماثل وغياب أو ضبابية نقاط التميز."
+    example_by_language:
+      en: "Customers ask for our category by name, but pick whichever vendor is cheapest or closest."
+      ar: "العملاء يطلبون فئتنا بالاسم لكنهم يختارون أرخص مزود أو أقربهم موقعًا."
+
+  - id: "confusion"
+    name_by_language:
+      en: "Confusion"
+      ar: "الالتباس"
+    description_by_language:
+      en: "People misunderstand what the brand actually does. The value proposition fails the elevator-test or the brand straddles too many categories simultaneously. Sales cycles lengthen because the buyer first needs the brand explained."
+      ar: "الناس يسيئون فهم ما تقدمه العلامة فعلًا. عرض القيمة لا يجتاز اختبار 'المصعد'، أو العلامة تتمدد بين فئات كثيرة في وقت واحد. تطول دورات البيع لأن المشتري يحتاج أولًا إلى أن تُشرح له العلامة."
+    example_by_language:
+      en: "We're a B2B fintech and people keep asking us about consumer banking apps."
+      ar: "نحن في التقنية المالية للأعمال، ولا يكف الناس عن سؤالنا عن تطبيقات الخدمات المصرفية للأفراد."
+
+  - id: "stagnation"
+    name_by_language:
+      en: "Stagnation"
+      ar: "الركود"
+    description_by_language:
+      en: "Momentum has flattened. Same audience, same revenue band, no new growth vector taking hold. Often a leading indicator of audience drift or category decline before it shows up in revenue."
+      ar: "الزخم تباطأ وأصبح خطيًا. الجمهور نفسه، نطاق الإيرادات نفسه، ولا يترسخ مسار نمو جديد. غالبًا مؤشر مبكر على ابتعاد الجمهور أو تراجع الفئة قبل أن يظهر ذلك في الإيرادات."
+    example_by_language:
+      en: "Revenue is steady but our customer count hasn't moved in eighteen months."
+      ar: "الإيرادات ثابتة، لكن عدد العملاء لم يتحرك منذ ثمانية عشر شهرًا."
+
+  - id: "price_trap"
+    name_by_language:
+      en: "Price trap"
+      ar: "فخ السعر"
+    description_by_language:
+      en: "The brand is forced to compete primarily on price, eroding margin and reducing room to invest in the very brand-building work that would let it escape the trap. Common when differentiation collapses or when budget-conscious segments dominate."
+      ar: "العلامة مجبرة على المنافسة في السعر بشكل رئيسي، مما يؤكل الهامش ويقلص قدرتها على الاستثمار في عمل بناء العلامة الذي يخرجها من الفخ. شائع عند انهيار التمايز أو عند هيمنة الشرائح الحساسة للسعر."
+    example_by_language:
+      en: "Every renewal conversation starts with the customer asking for a discount."
+      ar: "كل محادثة تجديد تبدأ بالعميل يطلب خصمًا."
+
+  - id: "audience_drift"
+    name_by_language:
+      en: "Audience drift"
+      ar: "انجراف الجمهور"
+    description_by_language:
+      en: "The audience the brand was originally built for is shifting away — aging out, changing preferences, or being eclipsed by a new generation. The brand's positioning fits people who are no longer there."
+      ar: "الجمهور الذي بُنيت العلامة من أجله أصلًا يبتعد — يكبر في السن، تتغير تفضيلاته، أو يحجبه جيل جديد. تموضع العلامة يناسب من لم يعد موجودًا."
+    example_by_language:
+      en: "Our core customer was the 35-year-old professional five years ago. They're 40 now and want different things."
+      ar: "كان عميلنا الأساسي قبل خمس سنوات هو المهني في الخامسة والثلاثين. اليوم أصبح في الأربعين، ويريد أشياء مختلفة."
+
+  - id: "internal_misalignment"
+    name_by_language:
+      en: "Internal misalignment"
+      ar: "اختلال المحاذاة الداخلية"
+    description_by_language:
+      en: "The team holding the brand cannot agree on what it stands for. Different leaders give different answers to 'what's our brand?'. The result is inconsistent execution and a watered-down identity at every customer touchpoint."
+      ar: "الفريق الذي يحمل العلامة لا يتفق على ما تمثله. القادة المختلفون يجيبون إجابات مختلفة عن سؤال 'ما هي علامتنا؟'. والنتيجة تنفيذ غير متسق وهوية مُخفَّفة في كل نقطة تماس مع العميل."
+    example_by_language:
+      en: "Marketing says we're premium, sales says we're accessible, founder says we're disruptive."
+      ar: "التسويق يقول إننا متميزون، والمبيعات تقول إننا في المتناول، والمؤسس يقول إننا مُغيِّرون للوضع القائم."
+
+  - id: "action_misalignment"
+    name_by_language:
+      en: "Action misalignment"
+      ar: "اختلال المحاذاة بين القول والفعل"
+    description_by_language:
+      en: "The brand's communicated identity diverges from its observable behavior. Customers experience the gap and interpret the brand by actions, not by claims. Often manifests as products, pricing, or service quality that contradicts the brand promise."
+      ar: "هوية العلامة المُعلنة تختلف عن سلوكها الملاحَظ. العملاء يلمسون الفجوة ويحكمون على العلامة بالأفعال لا بالادعاءات. غالبًا ما يظهر ذلك في المنتجات أو الأسعار أو جودة الخدمة على نحو يناقض وعد العلامة."
+    example_by_language:
+      en: "We say 'concierge service' on our website but support takes 48 hours to respond."
+      ar: "نقول 'خدمة استثنائية' على موقعنا، لكن الدعم يأخذ 48 ساعة للرد."
+
+  - id: "wrong_recognition"
+    name_by_language:
+      en: "Wrong recognition"
+      ar: "الشهرة الخاطئة"
+    description_by_language:
+      en: "The brand is known, but for the thing it least wants to be known for — its cheapest product, its oldest service, a one-off viral moment. The recognition is real but works against current positioning."
+      ar: "العلامة معروفة، لكن بما لا تريد أن تُعرف به — أرخص منتجاتها، أقدم خدماتها، أو لحظة انتشار عابرة. الشهرة حقيقية لكنها تعمل ضد التموضع الحالي."
+    example_by_language:
+      en: "Everyone knows us for the 99-riyal starter pack. Nobody knows we have a premium line."
+      ar: "الجميع يعرفنا بحزمة الـ99 ريالًا. لا أحد يعرف أن لدينا خطًا متميزًا."
+
+  - id: "loyalty_no_referral"
+    name_by_language:
+      en: "Loyalty without referral"
+      ar: "ولاء بلا توصية"
+    description_by_language:
+      en: "Customers are satisfied and stay but do not advocate. The brand has reached competence-level satisfaction but has not produced the emotional surplus that turns customers into advocates. Common in functional categories or when the brand experience is good but not memorable."
+      ar: "العملاء راضون ويبقون، لكنهم لا يوصون. وصلت العلامة إلى رضا المستوى الكفء، لكنها لم تُنتج الفائض العاطفي الذي يحوّل العملاء إلى مناصرين. شائع في الفئات الوظيفية، أو حين تكون تجربة العلامة جيدة لكن غير لافتة."
+    example_by_language:
+      en: "Our retention is 94% but our NPS promoter count is single-digit."
+      ar: "احتفاظنا 94% لكن عدد المروّجين على مؤشر NPS مفرد."
