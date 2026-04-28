@@ -55,4 +55,4 @@ The audience for this document is:
 
 | Date | Author | Change |
 |---|---|---|
-| (none yet) | | |
+| 2026-04-28 | engineering | PainAnalysis: llm_call_record_id → llm_call_record_ids (multi-call support); added register_id (audit traceability). Decided before first migration to avoid retroactive data migration. |
