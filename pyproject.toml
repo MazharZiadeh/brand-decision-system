@@ -56,5 +56,12 @@ target-version = ["py311"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+# All async fixtures and async tests share one event loop. Required for
+# session-scoped engines whose connections would otherwise be created on
+# one loop and used from another (Windows ProactorEventLoop teardown
+# race on Python 3.14 + asyncpg).
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
 testpaths = ["tests"]
-addopts = "-ra --cov=src --cov-report=term-missing"
+markers = ["integration: marks tests requiring a running Postgres"]
+addopts = "-ra --cov=src --cov-report=term-missing -m 'not integration'"
