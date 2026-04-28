@@ -128,6 +128,64 @@ def test_question_round_trip_with_slider_config():
     orm = question_to_orm(q, questionnaire_version_id=qv_id, orm_id=orm_id)
     round_tripped = question_from_orm(orm)
     assert round_tripped == q
+    # SLIDER mechanics carry no constraint fields.
+    assert round_tripped.min_selections is None
+    assert round_tripped.max_selections is None
+    assert round_tripped.free_text_max_length is None
+
+
+def test_question_round_trip_with_multi_choice_constraints():
+    options = [
+        AnswerOption(
+            value="obscurity",
+            label_by_language={
+                Language.ENGLISH: "People don't know us",
+                Language.ARABIC: "لا يعرفنا الناس",
+            },
+        ),
+    ]
+    q = Question(
+        id="q3.4",
+        section="tensions",
+        text_by_language={
+            Language.ENGLISH: "Pick top frustrations",
+            Language.ARABIC: "اختر أبرز الإحباطات",
+        },
+        mechanic=AnswerMechanic.MULTI_CHOICE,
+        options=options,
+        min_selections=1,
+        max_selections=3,
+    )
+    qv_id = uuid.uuid4()
+    orm_id = uuid.uuid4()
+    orm = question_to_orm(q, questionnaire_version_id=qv_id, orm_id=orm_id)
+    # AnswerOptions live in a separate ORM table; the repository assembles
+    # them from a join. Here we hand them back in to question_from_orm
+    # directly to verify the Question round-trip preserves constraint fields.
+    round_tripped = question_from_orm(orm, options=options)
+    assert round_tripped == q
+    assert round_tripped.min_selections == 1
+    assert round_tripped.max_selections == 3
+
+
+def test_question_round_trip_with_free_text_max_length():
+    q = Question(
+        id="q5.4",
+        section="aspiration",
+        text_by_language={
+            Language.ENGLISH: "Why does your brand exist?",
+            Language.ARABIC: "لماذا توجد علامتك؟",
+        },
+        mechanic=AnswerMechanic.FREE_TEXT,
+        free_text_max_length=200,
+        required=False,
+    )
+    qv_id = uuid.uuid4()
+    orm_id = uuid.uuid4()
+    orm = question_to_orm(q, questionnaire_version_id=qv_id, orm_id=orm_id)
+    round_tripped = question_from_orm(orm)
+    assert round_tripped == q
+    assert round_tripped.free_text_max_length == 200
 
 
 def test_answer_option_round_trip():

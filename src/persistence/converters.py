@@ -194,6 +194,9 @@ def question_to_orm(
             else None
         ),
         branching_rule=domain.branching_rule,
+        min_selections=domain.min_selections,
+        max_selections=domain.max_selections,
+        free_text_max_length=domain.free_text_max_length,
         required=domain.required,
     )
 
@@ -215,6 +218,9 @@ def question_from_orm(
             else None
         ),
         branching_rule=orm.branching_rule,
+        min_selections=orm.min_selections,
+        max_selections=orm.max_selections,
+        free_text_max_length=orm.free_text_max_length,
         required=orm.required,
     )
 

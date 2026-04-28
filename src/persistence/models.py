@@ -132,6 +132,9 @@ class Question(Base):
     mechanic: Mapped[str] = mapped_column(String(32), nullable=False)
     slider_config: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
     branching_rule: Mapped[str | None] = mapped_column(Text, nullable=True)
+    min_selections: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    max_selections: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    free_text_max_length: Mapped[int | None] = mapped_column(Integer, nullable=True)
     required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
     __table_args__ = (
