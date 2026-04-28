@@ -22,9 +22,18 @@ cd protagt
 cp .env.example .env
 
 docker compose up -d                  # starts Postgres on :5432
-python -m venv .venv && source .venv/bin/activate    # Windows: .venv\Scripts\activate
+
+python -m venv .venv
+
+# Linux / macOS
+source .venv/bin/activate
+
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+
 pip install -e ".[dev]"
 
+# Make sure Postgres is running first (e.g. `docker compose up -d`)
 alembic upgrade head                  # no migrations exist yet — exits cleanly
 uvicorn src.main:app --reload         # serves on :8000
 curl http://localhost:8000/health
