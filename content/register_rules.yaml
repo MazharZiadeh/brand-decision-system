@@ -1,0 +1,108 @@
+# Language Register Resolver rules v0.1.
+#
+# Maps Brand DNA Profile answers to a LanguageRegister directive
+# (primary_language, arabic_variety, register_level, cultural_anchors).
+# The resolver (Session 8) evaluates rules in declared order; first match
+# in each section sets the corresponding field. `default` is the fallback
+# when no condition matches.
+#
+# Compound conditions use `all_of`. The structure is intentionally
+# specific to this YAML (not a Pydantic-validated shape) — the resolver
+# implements the evaluator. Schema-level checks ensure the four expected
+# top-level sections (primary_language, arabic_variety, register_level,
+# cultural_anchors) are present.
+#
+# Translation status: rule labels stay in English (they're code, not
+# user-facing content).
+
+register_rules:
+  primary_language:
+    - condition:
+        question_id: "q2.5"
+        operator: "in_set"
+        value: ["arabic_only", "arabic_primary"]
+      sets:
+        primary_language: "ar"
+    - condition:
+        question_id: "q2.5"
+        operator: "in_set"
+        value: ["bilingual"]
+      sets:
+        primary_language: "ar"  # tie-breaker: Arabic for the Saudi market
+    - condition:
+        question_id: "q2.5"
+        operator: "in_set"
+        value: ["english_primary", "english_only"]
+      sets:
+        primary_language: "en"
+
+  arabic_variety:
+    - condition:
+        all_of:
+          - { question_id: "q2.5", operator: "equals", value: "arabic_only" }
+          - { question_id: "q4.1", operator: "greater_than", value: 60 }
+      sets:
+        arabic_variety: "msa"
+    - condition:
+        all_of:
+          - { question_id: "q2.5", operator: "in_set", value: ["arabic_only", "arabic_primary"] }
+          - { question_id: "q4.1", operator: "less_than", value: 40 }
+      sets:
+        arabic_variety: "saudi_dialect"
+    - condition:
+        question_id: "q2.5"
+        operator: "in_set"
+        value: ["english_primary", "english_only"]
+      sets:
+        arabic_variety: "not_applicable"
+    - default:
+        arabic_variety: "msa"  # safe default for ambiguous cases
+
+  register_level:
+    - condition:
+        question_id: "q4.1"
+        operator: "greater_than"
+        value: 70
+      sets:
+        register_level: "formal"
+    - condition:
+        all_of:
+          - { question_id: "q4.1", operator: "greater_than_or_equal", value: 40 }
+          - { question_id: "q4.1", operator: "less_than_or_equal", value: 70 }
+      sets:
+        register_level: "semi_formal"
+    - condition:
+        question_id: "q4.1"
+        operator: "less_than"
+        value: 40
+      sets:
+        register_level: "casual"
+
+  cultural_anchors:
+    # Always-on anchor: every Saudi-market session carries this baseline.
+    - always:
+        - "saudi_market_context"
+    # Heritage signals
+    - condition:
+        question_id: "q1.4"
+        operator: "less_than"
+        value: 40
+      adds: ["heritage_oriented", "respect_for_tradition"]
+    # Vision / innovation signals
+    - condition:
+        question_id: "q1.4"
+        operator: "greater_than"
+        value: 60
+      adds: ["innovation_oriented", "vision_2030_aligned"]
+    # Premium positioning
+    - condition:
+        question_id: "q1.3"
+        operator: "equals"
+        value: "premium"
+      adds: ["premium_positioning"]
+    # Warmth — affects culturally appropriate phrasing
+    - condition:
+        question_id: "q4.2"
+        operator: "greater_than"
+        value: 70
+      adds: ["warmth_culturally_appropriate"]
