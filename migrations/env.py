@@ -1,8 +1,9 @@
 """Alembic environment.
 
 Per CLAUDE.md §4.6 the database URL flows through `src.config.get_settings()`
-and is never read from `os.environ` directly. `target_metadata` is `None` until
-Session 2 introduces SQLAlchemy ORM models in `src/persistence/models.py`.
+and is never read from `os.environ` directly. `target_metadata` points at
+`Base.metadata`; importing `src.persistence.models` is what registers every
+ORM table on that metadata.
 """
 
 import asyncio
@@ -14,6 +15,8 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.config import get_settings
+from src.persistence import models  # noqa: F401  — registers ORM tables on Base.metadata
+from src.persistence.base import Base
 
 config = context.config
 
@@ -22,7 +25,7 @@ if config.config_file_name is not None:
 
 config.set_main_option("sqlalchemy.url", get_settings().database_url)
 
-target_metadata = None
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
