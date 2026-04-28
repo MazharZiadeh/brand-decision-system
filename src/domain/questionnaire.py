@@ -45,6 +45,15 @@ class Question(BaseModel):
     Each Question carries its text in BOTH languages via `text_by_language`,
     rather than itself being language-tagged. The Answer that responds to a
     Question is the language-tagged content object.
+
+    The constraint fields (`min_selections`, `max_selections`,
+    `free_text_max_length`) are mechanic-specific:
+    - MULTI_CHOICE / RANKING use min_selections + max_selections
+    - FREE_TEXT uses free_text_max_length
+    - SLIDER / SINGLE_CHOICE / BRANCHING leave all three None
+    Mechanic-specific consistency is enforced upstream by the Questionnaire
+    Service at content load time, not by this model — same boundary
+    discipline as Answer.value.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -56,6 +65,9 @@ class Question(BaseModel):
     options: list[AnswerOption] | None = None
     slider_config: SliderConfig | None = None
     branching_rule: str | None = None
+    min_selections: int | None = None
+    max_selections: int | None = None
+    free_text_max_length: int | None = None
     required: bool = True
 
 

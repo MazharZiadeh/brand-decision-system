@@ -94,3 +94,53 @@ def test_questionnaire_instance_starts_with_no_completion_time():
     )
     assert qi.completed_at is None
     assert qi.answers == []
+
+
+def test_question_constraint_fields_default_to_none():
+    q = _slider_question()
+    assert q.min_selections is None
+    assert q.max_selections is None
+    assert q.free_text_max_length is None
+
+
+def test_multi_choice_question_carries_selection_constraints():
+    q = Question(
+        id="q3.4",
+        section="tensions",
+        text_by_language={
+            Language.ENGLISH: "Pick top frustrations",
+            Language.ARABIC: "اختر أبرز الإحباطات",
+        },
+        mechanic=AnswerMechanic.MULTI_CHOICE,
+        options=[
+            AnswerOption(
+                value="obscurity",
+                label_by_language={
+                    Language.ENGLISH: "People don't know us",
+                    Language.ARABIC: "لا يعرفنا الناس",
+                },
+            ),
+        ],
+        min_selections=1,
+        max_selections=3,
+    )
+    assert q.min_selections == 1
+    assert q.max_selections == 3
+    assert q.free_text_max_length is None
+
+
+def test_free_text_question_carries_length_cap():
+    q = Question(
+        id="q5.4",
+        section="aspiration",
+        text_by_language={
+            Language.ENGLISH: "Why does your brand exist?",
+            Language.ARABIC: "لماذا توجد علامتك؟",
+        },
+        mechanic=AnswerMechanic.FREE_TEXT,
+        free_text_max_length=500,
+        required=False,
+    )
+    assert q.free_text_max_length == 500
+    assert q.min_selections is None
+    assert q.max_selections is None
