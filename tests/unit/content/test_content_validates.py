@@ -28,13 +28,24 @@ def test_questionnaire_en_validates():
     assert len(version.questions) == 22
     q11 = next(q for q in version.questions if q.id == "q1.1")
     assert q11.mechanic == AnswerMechanic.FREE_TEXT
+    assert q11.free_text_max_length == 200
     q14 = next(q for q in version.questions if q.id == "q1.4")
     assert q14.mechanic == AnswerMechanic.SLIDER
     assert q14.slider_config is not None
+    # SLIDER carries no constraint fields.
+    assert q14.min_selections is None
+    assert q14.max_selections is None
+    assert q14.free_text_max_length is None
     q34 = next(q for q in version.questions if q.id == "q3.4")
     assert q34.mechanic == AnswerMechanic.MULTI_CHOICE
     assert q34.options is not None
     assert len(q34.options) == 10
+    assert q34.min_selections == 1
+    assert q34.max_selections == 3
+    q54 = next(q for q in version.questions if q.id == "q5.4")
+    assert q54.mechanic == AnswerMechanic.FREE_TEXT
+    assert q54.free_text_max_length == 500
+    assert q54.required is False
 
 
 def test_questionnaire_ar_validates():
