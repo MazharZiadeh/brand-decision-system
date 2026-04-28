@@ -13,7 +13,6 @@ from src.domain.module import DecisionScope, ExecutionPlan, ModuleId, ModuleOutp
 from src.domain.module_outputs import (
     NameCandidate,
     NamingOutput,
-    PriorityFactorAddressed,
     SloganOption,
     SloganOutput,
     StrategyThemeOutput,
@@ -65,7 +64,6 @@ __all__ = [
     "PainTaxonomy",
     "PhaseState",
     "PriorityFactor",
-    "PriorityFactorAddressed",
     "Question",
     "QuestionnaireInstance",
     "QuestionnaireVersion",

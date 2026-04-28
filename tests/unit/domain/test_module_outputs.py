@@ -12,7 +12,6 @@ from src.domain.language import Language
 from src.domain.module_outputs import (
     NameCandidate,
     NamingOutput,
-    PriorityFactorAddressed,
     SloganOption,
     SloganOutput,
     StrategyThemeOutput,
@@ -20,26 +19,27 @@ from src.domain.module_outputs import (
     TaglineOutput,
     ToneOutput,
 )
+from src.domain.rationale import PriorityFactor
 
 
-def _factors() -> list[PriorityFactorAddressed]:
+def _factors() -> list[PriorityFactor]:
     return [
-        PriorityFactorAddressed(
+        PriorityFactor(
             factor_name="Position fit",
             how_addressed="Anchored on premium without performative luxury.",
         ),
-        PriorityFactorAddressed(
+        PriorityFactor(
             factor_name="Pain alignment: obscurity",
             how_addressed="Theme implies recognition through specificity.",
         ),
     ]
 
 
-# ── PriorityFactorAddressed ─────────────────────────────────────────
+# ── PriorityFactor ─────────────────────────────────────────
 
 
 def test_priority_factor_addressed_is_frozen():
-    pf = PriorityFactorAddressed(factor_name="X", how_addressed="Y")
+    pf = PriorityFactor(factor_name="X", how_addressed="Y")
     with pytest.raises(ValidationError):
         pf.factor_name = "Z"  # type: ignore[misc]
 

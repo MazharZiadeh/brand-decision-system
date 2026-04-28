@@ -5,16 +5,10 @@ schemas. The Strategy Theme produces a `StrategyThemeOutput`, Tone produces
 a `ToneOutput`, etc. The schemas are wired into the LLM provider's
 structured-output mode in Session 5+; this file defines the contract.
 
-Note on naming: `PriorityFactorAddressed` here is intentionally separate
-from `src.domain.rationale.PriorityFactor`. The latter is a building block
-of the canonical Rationale model. The former is the per-output instance
-that lives inline inside a module output — same shape, different home.
-We may collapse them later; for now the duplication is deliberate so
-neither side acquires fields the other can't accommodate.
-
 Per CLAUDE.md §2.7, every module output carries
 `priority_factors_addressed` — the rationale invariant is enforced at the
-schema level via `min_length=2`.
+schema level via `min_length=2`. The factor type is the canonical
+`PriorityFactor` from `src.domain.rationale`; one shape, one home.
 """
 
 from __future__ import annotations
@@ -22,21 +16,7 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict, Field
 
 from src.domain.language import LanguageTagged
-
-
-class PriorityFactorAddressed(BaseModel):
-    """One priority factor a module's output addressed.
-
-    `factor_name` is module-specific (Strategy has different factors from
-    Naming). `how_addressed` explains in 1-2 sentences how the brand's
-    signals led to this output.
-    """
-
-    model_config = ConfigDict(frozen=True)
-
-    factor_name: str
-    how_addressed: str
-
+from src.domain.rationale import PriorityFactor
 
 # ── Strategy Theme ──────────────────────────────────────────────────────
 
@@ -46,7 +26,7 @@ class StrategyThemeOutput(LanguageTagged):
 
     theme: str = Field(..., description="One-sentence strategic theme.")
     elaboration: str = Field(..., description="2-3 sentences expanding the theme.")
-    priority_factors_addressed: list[PriorityFactorAddressed] = Field(..., min_length=2)
+    priority_factors_addressed: list[PriorityFactor] = Field(..., min_length=2)
 
 
 # ── Tone ────────────────────────────────────────────────────────────────
@@ -65,7 +45,7 @@ class ToneOutput(LanguageTagged):
         default=None,
         description="Arabic-specific tone guidance, when applicable.",
     )
-    priority_factors_addressed: list[PriorityFactorAddressed] = Field(..., min_length=2)
+    priority_factors_addressed: list[PriorityFactor] = Field(..., min_length=2)
 
 
 # ── Naming ──────────────────────────────────────────────────────────────
@@ -88,7 +68,7 @@ class NamingOutput(LanguageTagged):
     """Naming module output: 3-5 candidates with rationale per candidate."""
 
     candidates: list[NameCandidate] = Field(..., min_length=3, max_length=5)
-    priority_factors_addressed: list[PriorityFactorAddressed] = Field(..., min_length=2)
+    priority_factors_addressed: list[PriorityFactor] = Field(..., min_length=2)
 
 
 # ── Slogan ──────────────────────────────────────────────────────────────
@@ -107,7 +87,7 @@ class SloganOutput(LanguageTagged):
     """Slogan module output: 2-3 internal-rallying options."""
 
     options: list[SloganOption] = Field(..., min_length=2, max_length=3)
-    priority_factors_addressed: list[PriorityFactorAddressed] = Field(..., min_length=2)
+    priority_factors_addressed: list[PriorityFactor] = Field(..., min_length=2)
 
 
 # ── Tagline ─────────────────────────────────────────────────────────────
@@ -130,13 +110,12 @@ class TaglineOutput(LanguageTagged):
     """Tagline module output: 2-3 customer-facing options."""
 
     options: list[TaglineOption] = Field(..., min_length=2, max_length=3)
-    priority_factors_addressed: list[PriorityFactorAddressed] = Field(..., min_length=2)
+    priority_factors_addressed: list[PriorityFactor] = Field(..., min_length=2)
 
 
 __all__ = [
     "NameCandidate",
     "NamingOutput",
-    "PriorityFactorAddressed",
     "SloganOption",
     "SloganOutput",
     "StrategyThemeOutput",
