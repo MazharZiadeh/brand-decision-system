@@ -1,0 +1,128 @@
+# Pain tagging rules v0.1.
+#
+# `rules` contains 13 simple rules whose triggers round-trip cleanly into
+# src.domain.pain.Rule (single-question RuleTrigger). The Rules Engine
+# (Session 6+) evaluates each against captured Answers; when a trigger
+# fires, the rule's `pain_category_id` is added to the session's pain tag
+# set (deduplicated downstream).
+#
+# `inferred_rules` contains compound rules that need a multi-question
+# trigger (`all_of`). The current RuleTrigger schema only models a single
+# question, so these are kept here for the future extended evaluator —
+# they are NOT loaded as Rule objects today. Documented as a known gap.
+
+rules:
+  # ── Slider-based rules — fire when reading is "strong-low" (<40) ──
+
+  - id: "rule_q31_visibility_low"
+    pain_category_id: "obscurity"
+    trigger:
+      question_id: "q3.1"
+      operator: "less_than"
+      value: 40
+
+  - id: "rule_q32_differentiation_low"
+    pain_category_id: "commoditization"
+    trigger:
+      question_id: "q3.2"
+      operator: "less_than"
+      value: 40
+
+  - id: "rule_q33_clarity_low"
+    pain_category_id: "confusion"
+    trigger:
+      question_id: "q3.3"
+      operator: "less_than"
+      value: 40
+
+  # ── Explicit selections from Q3.4 — fire when option chosen ──
+
+  - id: "rule_q34_explicit_obscurity"
+    pain_category_id: "obscurity"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["obscurity"]
+
+  - id: "rule_q34_explicit_commoditization"
+    pain_category_id: "commoditization"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["commoditization"]
+
+  - id: "rule_q34_explicit_confusion"
+    pain_category_id: "confusion"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["confusion"]
+
+  - id: "rule_q34_explicit_stagnation"
+    pain_category_id: "stagnation"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["stagnation"]
+
+  - id: "rule_q34_explicit_price_trap"
+    pain_category_id: "price_trap"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["price_trap"]
+
+  - id: "rule_q34_explicit_audience_drift"
+    pain_category_id: "audience_drift"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["audience_drift"]
+
+  - id: "rule_q34_explicit_internal_misalignment"
+    pain_category_id: "internal_misalignment"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["internal_misalignment"]
+
+  - id: "rule_q34_explicit_action_misalignment"
+    pain_category_id: "action_misalignment"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["action_misalignment"]
+
+  - id: "rule_q34_explicit_wrong_recognition"
+    pain_category_id: "wrong_recognition"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["wrong_recognition"]
+
+  - id: "rule_q34_explicit_loyalty_no_referral"
+    pain_category_id: "loyalty_no_referral"
+    trigger:
+      question_id: "q3.4"
+      operator: "in_set"
+      value: ["loyalty_no_referral"]
+
+# Compound rules — pending DSL extension before they evaluate.
+# Author each with `all_of` so the future evaluator can pick them up
+# without a content rewrite.
+inferred_rules:
+  - id: "rule_inferred_stagnation_latent_defending"
+    pain_category_id: "stagnation"
+    note: "Latent risk: established or mature brands defending position. Gentler tag than explicit Q3.4 selection."
+    trigger:
+      all_of:
+        - { question_id: "q1.2", operator: "in_set", value: ["established", "mature"] }
+        - { question_id: "q5.1", operator: "less_than", value: 40 }
+
+  - id: "rule_inferred_action_misalignment_premium_in_value_market"
+    pain_category_id: "action_misalignment"
+    note: "Premium positioning in a value-conscious audience signals a say/do gap on pricing."
+    trigger:
+      all_of:
+        - { question_id: "q2.3", operator: "less_than", value: 30 }
+        - { question_id: "q1.3", operator: "equals", value: "premium" }
