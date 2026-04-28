@@ -54,12 +54,20 @@ class Rule(BaseModel):
 
 
 class PainAnalysis(LanguageTagged):
-    """Combined Rules-Engine tags and LLM-elaborated narrative for one session."""
+    """Combined Rules-Engine tags and LLM-elaborated narrative for one session.
+
+    Per CLAUDE.md §2.8 every LLM-backed output traces to at least one
+    LLMCallRecord; the list shape supports future self-critique loops or
+    N-best narrative sampling without a schema migration. `register_id`
+    pins the narrative to the specific LanguageRegister directive that
+    shaped it, so the audit chain narrative → register stays explicit.
+    """
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
     session_id: uuid.UUID
     tagged_pain_categories: list[str]
+    register_id: uuid.UUID
     narrative: str
     rationale_id: uuid.UUID
-    llm_call_record_id: uuid.UUID
+    llm_call_record_ids: list[uuid.UUID] = Field(min_length=1)
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

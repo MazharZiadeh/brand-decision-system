@@ -57,9 +57,35 @@ def test_pain_analysis_requires_language():
         PainAnalysis(  # type: ignore[call-arg]
             session_id=uuid.uuid4(),
             tagged_pain_categories=["obscurity"],
+            register_id=uuid.uuid4(),
             narrative="The brand is invisible.",
             rationale_id=uuid.uuid4(),
-            llm_call_record_id=uuid.uuid4(),
+            llm_call_record_ids=[uuid.uuid4()],
+        )
+
+
+def test_pain_analysis_requires_register_id():
+    with pytest.raises(ValidationError):
+        PainAnalysis(  # type: ignore[call-arg]
+            session_id=uuid.uuid4(),
+            tagged_pain_categories=["obscurity"],
+            narrative="The brand is invisible.",
+            language=Language.ENGLISH,
+            rationale_id=uuid.uuid4(),
+            llm_call_record_ids=[uuid.uuid4()],
+        )
+
+
+def test_pain_analysis_requires_at_least_one_llm_call_record():
+    with pytest.raises(ValidationError):
+        PainAnalysis(
+            session_id=uuid.uuid4(),
+            tagged_pain_categories=["obscurity"],
+            register_id=uuid.uuid4(),
+            narrative="The brand is invisible.",
+            language=Language.ENGLISH,
+            rationale_id=uuid.uuid4(),
+            llm_call_record_ids=[],
         )
 
 
@@ -67,10 +93,12 @@ def test_valid_pain_analysis():
     pa = PainAnalysis(
         session_id=uuid.uuid4(),
         tagged_pain_categories=["obscurity", "stagnation"],
+        register_id=uuid.uuid4(),
         narrative="The brand has lost momentum and visibility.",
         language=Language.ENGLISH,
         rationale_id=uuid.uuid4(),
-        llm_call_record_id=uuid.uuid4(),
+        llm_call_record_ids=[uuid.uuid4()],
     )
     assert pa.language == Language.ENGLISH
     assert "obscurity" in pa.tagged_pain_categories
+    assert len(pa.llm_call_record_ids) == 1
