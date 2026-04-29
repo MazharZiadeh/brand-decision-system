@@ -15,11 +15,11 @@ import uuid
 import pytest
 
 from src.discovery import (
-    generate_pain_narrative,
     load_content_bundle,
     resolve_register,
     tag_pain_categories,
 )
+from src.generation import generate_pain_narrative
 from src.domain.language import Language
 from src.domain.narrative_output import PainNarrativeOutput
 from src.domain.questionnaire import Answer, QuestionnaireVersion

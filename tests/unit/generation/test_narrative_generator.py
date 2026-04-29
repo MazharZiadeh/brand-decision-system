@@ -8,7 +8,7 @@ from datetime import UTC, datetime
 import pytest
 
 from src.discovery.exceptions import DiscoveryError
-from src.discovery.narrative_generator import generate_pain_narrative
+from src.generation.narrative_generator import generate_pain_narrative
 from src.domain.language import Language
 from src.domain.narrative_output import PainNarrativeOutput
 from src.domain.pain import PainAnalysis, PainCategory
