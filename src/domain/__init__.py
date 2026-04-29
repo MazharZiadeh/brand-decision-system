@@ -20,6 +20,7 @@ from src.domain.module_outputs import (
     TaglineOutput,
     ToneOutput,
 )
+from src.domain.narrative_output import PainNarrativeOutput
 from src.domain.pain import PainAnalysis, PainCategory, PainTaxonomy, Rule, RuleTrigger
 from src.domain.prompt import ModulePromptExtension, SessionSystemPrompt
 from src.domain.questionnaire import (
@@ -61,6 +62,7 @@ __all__ = [
     "NamingOutput",
     "PainAnalysis",
     "PainCategory",
+    "PainNarrativeOutput",
     "PainTaxonomy",
     "PhaseState",
     "PriorityFactor",
