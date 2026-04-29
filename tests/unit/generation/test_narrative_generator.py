@@ -8,12 +8,20 @@ from datetime import UTC, datetime
 import pytest
 
 from src.discovery.exceptions import DiscoveryError
-from src.generation.narrative_generator import generate_pain_narrative
+from src.domain.brand_dna_context import (
+    AspirationInfo,
+    AudienceInfo,
+    BrandDNAContext,
+    BrandInfo,
+    PainHints,
+    VoiceInfo,
+)
 from src.domain.language import Language
 from src.domain.narrative_output import PainNarrativeOutput
 from src.domain.pain import PainAnalysis, PainCategory
 from src.domain.rationale import PriorityFactor
 from src.domain.register import ArabicVariety, LanguageRegister, RegisterLevel
+from src.generation.narrative_generator import generate_pain_narrative
 from src.llm.mock import MockLLMProvider
 
 
@@ -45,35 +53,38 @@ def _register(
     )
 
 
-def _brand_dna_context() -> dict:
-    return {
-        "brand": {
-            "name": "TestBrand",
-            "description": "Test brand description.",
-            "stage": "early",
-            "position": "premium",
-            "heritage_vs_vision_band": "balanced",
-        },
-        "audience": {
-            "description": "Saudi professionals 30-45.",
-            "age_band": "middle",
-            "spend_band": "aspirational",
-            "decision_band": "mixed",
-            "language_preference": "english_primary",
-        },
-        "voice": {
-            "formality_band": "semi_formal",
-            "warmth_band": "warm",
-            "confidence_band": "balanced",
-            "energy_band": "balanced",
-        },
-        "aspiration": {
-            "posture_band": "balanced",
-            "three_year": "category_leader",
-            "emotion_target": "trust",
-        },
-        "top_frustrations": ["obscurity"],
-    }
+def _brand_dna_context() -> BrandDNAContext:
+    return BrandDNAContext(
+        brand=BrandInfo(
+            name="TestBrand",
+            description="Test brand description.",
+            stage="early",
+            position="premium",
+            heritage_vs_vision_band="balanced",
+            heritage_vs_vision_score=50,
+        ),
+        audience=AudienceInfo(
+            description="Saudi professionals 30-45.",
+            age_band="middle",
+            spend_band="aspirational",
+            decision_band="mixed",
+            language_preference="english_primary",
+        ),
+        voice=VoiceInfo(
+            formality_band="semi_formal",
+            warmth_band="warm",
+            confidence_band="balanced",
+            energy_band="balanced",
+            characters=["confident_peer"],
+        ),
+        aspiration=AspirationInfo(
+            posture_band="balanced",
+            three_year="category_leader",
+            emotion_target="trust",
+            brand_premise="",
+        ),
+        pain=PainHints(top_frustrations=["obscurity"]),
+    )
 
 
 def _narrative_response(language: Language = Language.ENGLISH) -> PainNarrativeOutput:

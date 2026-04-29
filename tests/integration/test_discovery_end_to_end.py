@@ -19,11 +19,12 @@ from src.discovery import (
     resolve_register,
     tag_pain_categories,
 )
-from src.generation import generate_pain_narrative
+from src.domain.brand_dna_context import build_brand_dna_context
 from src.domain.language import Language
 from src.domain.narrative_output import PainNarrativeOutput
-from src.domain.questionnaire import Answer, QuestionnaireVersion
+from src.domain.questionnaire import Answer
 from src.domain.rationale import PriorityFactor
+from src.generation import generate_pain_narrative
 from src.llm.mock import MockLLMProvider
 
 pytestmark = pytest.mark.integration
@@ -62,57 +63,6 @@ def _fixture_answers_for_invisible_premium_brand() -> list[Answer]:
     ]
 
 
-def _brand_dna_context_from_answers(
-    answers: list[Answer],
-    questionnaire: QuestionnaireVersion,
-) -> dict:
-    """Minimal helper that maps Answer values into the dict shape the
-    narrative template expects. The 'real' version of this lives in the
-    yet-to-be-built Session Service (Session 8); for the integration test
-    a small inline derivation is enough.
-    """
-    by_id = {a.question_id: a.value for a in answers}
-
-    def band(value: int, low: int = 40, high: int = 60) -> str:
-        if value < low:
-            return "low"
-        if value > high:
-            return "high"
-        return "balanced"
-
-    return {
-        "brand": {
-            "name": "TestBrand",
-            "description": by_id.get("q1.1", ""),
-            "stage": by_id.get("q1.2", "early"),
-            "position": by_id.get("q1.3", "specialist"),
-            "heritage_vs_vision_band": band(by_id.get("q1.4", 50)),
-            "heritage_vs_vision_score": by_id.get("q1.4", 50),
-        },
-        "audience": {
-            "description": by_id.get("q2.1", ""),
-            "age_band": band(by_id.get("q2.2", 50)),
-            "spend_band": band(by_id.get("q2.3", 50)),
-            "decision_band": band(by_id.get("q2.4", 50)),
-            "language_preference": by_id.get("q2.5", "bilingual"),
-        },
-        "voice": {
-            "formality_band": band(by_id.get("q4.1", 50)),
-            "warmth_band": band(by_id.get("q4.2", 50)),
-            "confidence_band": band(by_id.get("q4.3", 50)),
-            "energy_band": band(by_id.get("q4.4", 50)),
-            "characters": by_id.get("q4.5", []),
-        },
-        "aspiration": {
-            "posture_band": band(by_id.get("q5.1", 50)),
-            "three_year": by_id.get("q5.2", ""),
-            "emotion_target": by_id.get("q5.3", ""),
-            "brand_premise": by_id.get("q5.4", ""),
-        },
-        "top_frustrations": by_id.get("q3.4", []),
-    }
-
-
 async def test_full_discovery_flow_with_mock_provider():
     # 1. Load real content
     bundle = load_content_bundle()
@@ -139,8 +89,8 @@ async def test_full_discovery_flow_with_mock_provider():
     assert register.session_id == session_id
     assert register.primary_language == Language.ENGLISH  # english_primary audience
 
-    # 5. Build the brand DNA context the template expects
-    brand_dna_context = _brand_dna_context_from_answers(answers, bundle.questionnaire_en)
+    # 5. Build the typed brand DNA context (the canonical helper from src.domain)
+    brand_dna_context = build_brand_dna_context(answers, bundle.questionnaire_en)
 
     # 6. Configure the Mock and run the narrative generator
     mock = MockLLMProvider()

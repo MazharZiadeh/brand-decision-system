@@ -15,12 +15,12 @@ from __future__ import annotations
 
 import uuid
 from pathlib import Path
-from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
 from src.discovery.exceptions import DiscoveryError
 from src.domain.audit import LLMCallRecord
+from src.domain.brand_dna_context import BrandDNAContext
 from src.domain.narrative_output import PainNarrativeOutput
 from src.domain.pain import PainAnalysis, PainCategory
 from src.domain.register import LanguageRegister
@@ -35,7 +35,7 @@ _env = Environment(
 
 
 async def generate_pain_narrative(
-    brand_dna_context: dict[str, Any],
+    brand_dna_context: BrandDNAContext,
     pain_categories: list[PainCategory],
     register: LanguageRegister,
     session_id: uuid.UUID,
@@ -43,10 +43,11 @@ async def generate_pain_narrative(
 ) -> tuple[PainAnalysis, LLMCallRecord]:
     """Generate the pain narrative for a session.
 
-    `brand_dna_context` carries the keys the template expects: `brand`,
-    `audience`, `voice`, `aspiration`. The function attaches `pain` and
-    `register` itself (those are derived from the upstream Discovery
-    components, not from the questionnaire directly).
+    `brand_dna_context` is the typed questionnaire-derived context shared
+    with the module runners (Session 7+). The function attaches the
+    rules-engine-derived pain categories plus the resolved register at
+    template-render time — those are upstream Discovery outputs, not raw
+    questionnaire data.
 
     Returns the assembled `PainAnalysis` and the `LLMCallRecord` from
     the provider call. The caller persists both.
@@ -58,12 +59,15 @@ async def generate_pain_narrative(
 
     template = _env.get_template("pain_narrative.j2")
     rendered_prompt = template.render(
-        **brand_dna_context,
+        brand=brand_dna_context.brand,
+        audience=brand_dna_context.audience,
+        voice=brand_dna_context.voice,
+        aspiration=brand_dna_context.aspiration,
         pain={
             "tagged_categories": [c.model_dump() for c in pain_categories],
-            "top_frustrations": brand_dna_context.get("top_frustrations", []),
+            "top_frustrations": brand_dna_context.pain.top_frustrations,
         },
-        register=register.model_dump(),
+        register=register,
     )
 
     request = LLMCallRequest(

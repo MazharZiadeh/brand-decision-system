@@ -1,4 +1,13 @@
 from src.domain.audit import LLMCallRecord, LLMCallStatus
+from src.domain.brand_dna_context import (
+    AspirationInfo,
+    AudienceInfo,
+    BrandDNAContext,
+    BrandInfo,
+    PainHints,
+    VoiceInfo,
+    build_brand_dna_context,
+)
 from src.domain.exceptions import (
     DomainError,
     InvalidScopeError,
@@ -41,6 +50,10 @@ __all__ = [
     "AnswerMechanic",
     "AnswerOption",
     "ArabicVariety",
+    "AspirationInfo",
+    "AudienceInfo",
+    "BrandDNAContext",
+    "BrandInfo",
     "DecisionScope",
     "DomainError",
     "ExecutionPlan",
@@ -62,6 +75,7 @@ __all__ = [
     "NamingOutput",
     "PainAnalysis",
     "PainCategory",
+    "PainHints",
     "PainNarrativeOutput",
     "PainTaxonomy",
     "PhaseState",
@@ -83,4 +97,6 @@ __all__ = [
     "TaglineOption",
     "TaglineOutput",
     "ToneOutput",
+    "VoiceInfo",
+    "build_brand_dna_context",
 ]
