@@ -1,0 +1,116 @@
+{# Pain Narrative prompt template.
+   Standalone (does not include unified_preamble.j2) because the
+   preamble assumes pain.narrative already exists, and the entire
+   purpose of THIS template is to ask the LLM to produce one. #}
+{%- if register.primary_language == 'ar' -%}
+أنت استراتيجي علامات تجارية ذو خبرة، عميق المعرفة بالسوق السعودي وسياق رؤية 2030. مهمتك تشخيص الألم الذي تواجهه العلامة فعليًا، لا إعادة صياغة الفئات بشكل عام.
+{%- else -%}
+You are an experienced brand strategist with deep knowledge of the Saudi market and Vision 2030 context. Your job is to diagnose what is actually wrong with this brand — not restate the pain categories in generic language.
+{%- endif %}
+
+{% if register.primary_language == 'ar' %}== الحمض النووي للعلامة ==
+- الاسم: {{ brand.name }}
+- الوصف: {{ brand.description }}
+- المرحلة: {{ brand.stage }}
+- التموضع: {{ brand.position }}
+- التوجه الزمني (إرث/رؤية): {{ brand.heritage_vs_vision_band }}
+{% else %}== Brand DNA ==
+- Name: {{ brand.name }}
+- Description: {{ brand.description }}
+- Stage: {{ brand.stage }}
+- Position: {{ brand.position }}
+- Heritage vs Vision orientation: {{ brand.heritage_vs_vision_band }}
+{% endif %}
+{% if register.primary_language == 'ar' %}== الجمهور ==
+- الوصف: {{ audience.description }}
+- مركز ثقل الأعمار: {{ audience.age_band }}
+- توجه الإنفاق: {{ audience.spend_band }}
+- أسلوب اتخاذ القرار: {{ audience.decision_band }}
+- تفضيل اللغة: {{ audience.language_preference }}
+{% else %}== Audience ==
+- Description: {{ audience.description }}
+- Age center of gravity: {{ audience.age_band }}
+- Spending mindset: {{ audience.spend_band }}
+- Decision style: {{ audience.decision_band }}
+- Language preference: {{ audience.language_preference }}
+{% endif %}
+{% if register.primary_language == 'ar' %}== الصوت والشخصية ==
+- الرسمية: {{ voice.formality_band }}
+- الدفء: {{ voice.warmth_band }}
+- الثقة: {{ voice.confidence_band }}
+- الطاقة: {{ voice.energy_band }}
+{% else %}== Voice & Personality ==
+- Formality: {{ voice.formality_band }}
+- Warmth: {{ voice.warmth_band }}
+- Confidence: {{ voice.confidence_band }}
+- Energy: {{ voice.energy_band }}
+{% endif %}
+{% if register.primary_language == 'ar' %}== الطموح ==
+- الموقف الاستراتيجي: {{ aspiration.posture_band }}
+- الطموح خلال 3 سنوات: {{ aspiration.three_year }}
+- الشعور المستهدف لدى الجمهور: {{ aspiration.emotion_target }}
+{% else %}== Aspiration ==
+- Strategic posture: {{ aspiration.posture_band }}
+- Three-year ambition: {{ aspiration.three_year }}
+- Audience emotion target: {{ aspiration.emotion_target }}
+{% endif %}
+{% if register.primary_language == 'ar' %}== توجيه السجل اللغوي ==
+- اللغة الأساسية: العربية
+{% if register.arabic_variety == 'msa' %}- استخدم العربية الفصحى الحديثة (MSA): محترمة، معاصرة، غير قديمة.
+{% elif register.arabic_variety == 'saudi_dialect' %}- استخدم لهجة سعودية محادثاتية: طبيعية، معاصرة.
+{% endif %}- مستوى السجل: {{ register.register_level }}
+- المراسي الثقافية لمراعاتها: {% for a in register.cultural_anchors %}{{ a }}{% if not loop.last %}، {% endif %}{% endfor %}
+{% else %}== Language Register Directive ==
+- Primary language: English
+- Register level: {{ register.register_level }}
+- Cultural anchors to honor: {% for a in register.cultural_anchors %}{{ a }}{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+{% if register.primary_language == 'ar' %}== فئات الألم الموسومة ==
+{% for cat in pain.tagged_categories %}- {{ cat.name_by_language.ar if cat.name_by_language and cat.name_by_language.ar else cat.id }}: {{ cat.description_by_language.ar if cat.description_by_language and cat.description_by_language.ar else cat.id }}
+{% endfor %}
+الإحباطات التي اختارها صاحب العلامة بنفسه: {% for f in pain.top_frustrations %}{{ f }}{% if not loop.last %}، {% endif %}{% endfor %}
+
+== مهمة الوحدة: السرد التشخيصي للألم ==
+أنشئ سردًا من 3-5 جمل يضع فئات الألم الموسومة أعلاه في سياق هذه العلامة بالتحديد. ينبغي أن يبدو السرد كتشخيص استراتيجي صادر عن خبير، لا كإعادة صياغة عامة للفئات. اربط الألم بسياق العلامة المحدد (المرحلة، التموضع، الجمهور، الطموح).
+
+== مخطط الناتج (JSON صالح، صارم) ==
+{
+  "language": "ar",
+  "narrative": "3-5 جمل تشخيصية محددة لهذه العلامة (50-2000 حرف)",
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+priority_factors_addressed يجب أن يحتوي على عنصرين على الأقل.
+
+== توجيهات جودة ==
+- تجنّب العبارات العامة: "حلول مبتكرة"، "فريق شغوف"، إلخ.
+- لا تترجم تعابير إنجليزية حرفيًا.
+- اربط كل ألم بسياق محدد من الحمض النووي للعلامة.
+{% else %}== Tagged Pain Categories ==
+{% for cat in pain.tagged_categories %}- {{ cat.name_by_language.en if cat.name_by_language and cat.name_by_language.en else cat.id }}: {{ cat.description_by_language.en if cat.description_by_language and cat.description_by_language.en else cat.id }}
+{% endfor %}
+Brand owner's self-selected top frustrations: {% for f in pain.top_frustrations %}{{ f }}{% if not loop.last %}, {% endif %}{% endfor %}
+
+== MODULE TASK: PAIN DIAGNOSTIC NARRATIVE ==
+Generate a 3-5 sentence narrative that contextualizes the tagged pain categories above for THIS specific brand. The narrative must read like a senior strategist diagnosing what is actually wrong — not a generic restatement of the categories. Connect each pain to specific Brand DNA signals (stage, position, audience, ambition).
+
+== OUTPUT SCHEMA (strict JSON) ==
+{
+  "language": "en",
+  "narrative": "3-5 diagnostic sentences specific to THIS brand (50-2000 chars)",
+  "priority_factors_addressed": [
+    {"factor_name": "...", "how_addressed": "..."},
+    ...
+  ]
+}
+
+priority_factors_addressed must contain at least two entries.
+
+== QUALITY DIRECTIVES ==
+- Avoid generic phrasings ("innovative solutions", "passionate team", etc.).
+- Do not translate English idioms literally into Arabic, or vice versa.
+- Tie each tagged pain to a specific Brand DNA signal — be concrete.
+{% endif %}
