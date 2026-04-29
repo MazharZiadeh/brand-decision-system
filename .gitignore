@@ -42,3 +42,6 @@ Thumbs.db
 node_modules/
 
 # Alembic local artifacts (none in M1 — keep entry for the future)
+
+# Claude Code session state (local tooling — do not version)
+.claude/
